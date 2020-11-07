@@ -8,10 +8,14 @@
   "dependencies": {
     "@baleada/logic": "^0.15.19",
     "@baleada/vue-composition": "^0.8.3",
+    "path": "^0.12.7",
     "vue": "^3.0.2"
   },
   "devDependencies": {
-    "vite": "^1.0.0-rc.8",
-    "@vue/compiler-sfc": "^3.0.2"
+    "@baleada/tailwind-theme": "^0.2.1",
+    "@tailwindcss/custom-forms": "0.0.0-9bce1aa",
+    "@vue/compiler-sfc": "^3.0.2",
+    "tailwindcss": "^2.0.0-alpha.8",
+    "vite": "^1.0.0-rc.8"
   }
 }
