@@ -30,7 +30,7 @@
           <span>Upload</span>
         </label>
       </form>
-      <span class="mx-auto">{{ fileName && `${fileName}.json` || fileName }}</span>
+      <span class="mx-auto">{{ fileName }}</span>
       <form class="flex flex-col items-center">
         <select
           v-show="mapNames.length > 0"
@@ -60,7 +60,7 @@
         </button>
         <button
           type="button"
-          @click="() => downloadable.download(`${fileName} ${selectedMapName}`)"
+          @click="() => downloadable.download(`${fileName.replace(/\.json$/, '')} ${selectedMapName}`)"
           v-show="mapNames.length > 0"
           :class="btn"
         >
@@ -75,9 +75,6 @@
 <script>
 import { ref, computed, watchEffect } from 'vue'
 import { useCopyable } from '@baleada/vue-composition'
-import { default as path } from 'path'
-
-const { parse } = path
 
 export default {
   setup () {
@@ -87,7 +84,7 @@ export default {
             const reader = new FileReader()
             reader.onload = ({ target: { result } }) => {
               project.value = JSON.parse(result)
-              fileName.value = parse(f.replace(/\\/g, '/')).name
+              fileName.value = f.replace(/\\/g, '/').split('/').reverse()[0]
               selectedMapName.value = mapNames.value[0]
             }
             reader.readAsText(file)
