@@ -7,7 +7,13 @@ module.exports = {
       'src/App.vue',
     ],
   },
-  theme: baleada,
+  theme: {
+    ...baleada,
+    maxHeight: {
+      ...baleada.maxHeight,
+      'screen-sm': '648px',
+    },
+  },
   plugins: [
     require('@tailwindcss/custom-forms'),
   ],

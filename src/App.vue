@@ -1,19 +1,20 @@
 <template>
-  <main class="h-screen w-screen flex flex-col overflow-y-scroll overflow-x-hidden items-center bg-indigo-40 gap-6 px-8 py-11">
+  <main class="h-screen w-screen flex flex-col overflow-y-scroll overflow-x-hidden items-center bg-indigo-5 gap-6 px-8 py-11">
     <section class="w-full max-w-6 flex items-center justify-between">
-      <h1 class="text-3 tracking-3 font-6 uppercase text-indigo-80">To Map Blueprint</h1>
-      <span class="text-3 tracking-3 font-6 uppercase text-indigo-80">Built by <a href="https://kumu.io" class="underline hover:text-indigo-90 transition duration-3">Kumu</a></span>
+      <h1 class="text-3 tracking-3 font-6 uppercase text-indigo-90">To Map Blueprint</h1>
+      <span class="text-3 tracking-3 font-6 uppercase text-indigo-90">Built by <a href="https://kumu.io" class="underline hover:text-indigo-60 transition duration-3">Kumu</a></span>
     </section>
-    <section class="w-full max-w-6 p-6 bg-gray-5 rounded-4 shadow-5 space-y-4">
+    <section class="w-full max-w-6 p-6 bg-white rounded-4 shadow-5 space-y-4">
       <h2 class="text-3 tracking-3 font-6 uppercase text-gray-80">Instructions</h2>
       <ol class="list-decimal pl-6 space-y-3">
         <li><a href="https://docs.kumu.io/guides/export.html#downloading-a-project-blueprint" class="text-indigo-60 hover:underline hover:text-indigo-70 transition duration-3">Export your Kumu project as JSON.</a></li>
         <li>Upload your JSON file to this page. (To protect privacy, your data will stay in your browser—this page never contacts any servers.)</li>
         <li>From the dropdown that appears, select the specific map whose blueprint you need.</li>
-        <li>Copy the map blueprint to your clipboard, or download its JSON file to your computer.</li>
+        <li>Download its JSON file to your computer.</li>
+        <li>Drag-and-drop the JSON file onto any Kumu project to import the map with all of its data and settings.</li>
       </ol>
     </section>
-    <section class="w-full max-w-6 p-6 bg-gray-5 rounded-4 shadow-5 flex flex-col gap-3">
+    <section class="w-full max-w-6 p-6 bg-white rounded-4 shadow-5 flex flex-col gap-3">
       <form class="flex flex-col items-center">
         <label
           for="upload"
@@ -35,7 +36,7 @@
         <select
           v-show="mapNames.length > 0"
           @input="({ target: { value } }) => selectedMapName = value"
-          class="form-select"
+          class="form-select max-w-full"
         >
           <option
             v-for="mapName in mapNames"
@@ -48,26 +49,26 @@
         </select>
       </form>
     </section>
-    <section class="w-full max-w-6 p-6 bg-gray-5 rounded-4 shadow-5 space-y-5">
+    <section class="w-full max-w-6 p-6 bg-white rounded-4 shadow-5 space-y-5">
       <section class="space-x-4">
-        <button
+        <!-- <button
           type="button"
           @click="() => copyable.copy()"
           v-show="mapNames.length > 0"
           :class="btn"
         >
           Copy map blueprint
-        </button>
+        </button> -->
         <button
           type="button"
           @click="() => downloadable.download(`${fileName.replace(/\.json$/, '')} ${selectedMapName}`)"
           v-show="mapNames.length > 0"
           :class="btn"
         >
-          Download map blueprint
+          Download blueprint
         </button>
       </section>
-      <pre class="bg-gray-10 -shadow-4 p-6 rounded-4 overflow-x-scroll"><code>{{ stringifiedMapBlueprint }}</code></pre>
+      <pre class="max-h-screen-sm bg-indigo-90 text-indigo-20 p-6 rounded-4 overflow-scroll"><code>{{ stringifiedMapBlueprint }}</code></pre>
     </section>
   </main>
 </template>
@@ -185,6 +186,6 @@ function simpleSlugify (string) {
     .toLowerCase()
 }
 
-const btn = 'p-2 rounded-4 bg-indigo-10 text-indigo-90 shadow-4 hover:shadow-5 hover:scale-110 active:shadow-4 active:scale-100 transition duration-3 transform cursor-pointer'
+const btn = 'p-2 rounded-4 bg-indigo-5 text-indigo-90 shadow-4 hover:shadow-5 hover:scale-110 active:shadow-4 active:scale-100 transition duration-3 transform cursor-pointer'
 </script>
 
