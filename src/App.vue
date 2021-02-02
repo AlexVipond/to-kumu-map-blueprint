@@ -32,7 +32,12 @@
         </label>
       </form>
       <span class="mx-auto">{{ fileName }}</span>
-      <form class="flex flex-col items-center">
+      <section
+        v-show="typeof mapBlueprint?.message === 'string'"
+        v-html="mapBlueprint?.message"
+        class="flex flex-col gap-3 p-4 rounded-4 bg-red-20 text-red-90"
+      />
+      <form v-show="typeof mapBlueprint?.message !== 'string'" class="flex flex-col items-center">
         <select
           v-show="mapNames.length > 0"
           @input="({ target: { value } }) => selectedMapName = value"
@@ -93,7 +98,11 @@ export default {
           mapNames = computed(() => project.value?.maps?.map(({ name }) => name) || []),
           selectedMapName = ref(''),
           mapBlueprint = computed(() => mapNames.value.length > 0 ? toMapBlueprint({ project: project.value, mapName: selectedMapName.value }) : {}),
-          stringifiedMapBlueprint = computed(() => JSON.stringify(mapBlueprint.value, null, 2))
+          stringifiedMapBlueprint = computed(() => 
+            typeof mapBlueprint.value?.message === 'string'
+              ? '{}'
+              : JSON.stringify(mapBlueprint.value, null, 2)
+          )
 
     const copyable = useCopyable(mapBlueprint.value)
 
@@ -109,6 +118,7 @@ export default {
       setProject,
       mapNames,
       selectedMapName,
+      mapBlueprint,
       stringifiedMapBlueprint,
       copyable,
       downloadable,
@@ -122,6 +132,10 @@ function toMapBlueprint ({ project, mapName }) {
         view = project.perspectives.find(view => view._id === map.defaultPerspective),
         mapBlueprint = JSON.parse(JSON.stringify(project, null, 2)),
         unnecessaryFields = ['attributeRelevance', 'attributes', 'defaultMap', 'defaultPerspective', 'description', 'name', 'proxyImages', 'version']
+
+  if (!view) {
+    return { message: '<p>Error: could not find a default view for your map.</p><p>To troubleshoot, return to your project, right click the background of the map, and select <b>View &gt; Make this the default view</b>.</p><p>Then, download the JSON blueprint again, and upload it here.</p>' }
+  }
 
   unnecessaryFields.forEach(field => {
     delete mapBlueprint[field]
